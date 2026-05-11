@@ -55,6 +55,15 @@ class Chain(pygame.sprite.Sprite):
     def update(self):
         self.rect.x = self.rect.x + self.movex
         self.rect.y = self.rect.y + self.movey
+
+
+def getStitchPosition(pos, group):
+    for i, stitch in enumerate(group):
+        if stitch.rect.collidepoint(pos):
+            active_stitch = i
+            return active_stitch
+    return False
+
         
                 
 def main():
@@ -123,8 +132,15 @@ def main():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed()[0]:
                         if chain_button.rect.collidepoint(pos):
-                            new_chain = Chain(400, 300, chain_button_img, 0.8)
-                            chains_list.add(new_chain)
+                            chain_obj = Chain(400, 300, chain_button_img, 0.8)
+                            chains_list.add(chain_obj)
+
+                        if chain_obj.rect.collidepoint(pos):
+                            active_obj_idx = getStitchPosition(pos, chains_list)
+                            current_list = chains_list.sprites()
+                            active_obj = current_list[active_obj_idx]
+                            chain_obj = active_obj
+
                 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFTBRACKET:
