@@ -1,5 +1,4 @@
 import pygame
-import random
     
 
 pygame.init()
@@ -10,56 +9,34 @@ screen_height = 600
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Crochet Pattern Maker')
-chain_st_img = pygame.image.load('one-chain-stitch-symbol.jpg')
-chain_img_width, chain_img_height = 50, 50
-chain_st = pygame.transform.scale(chain_st_img, (chain_img_width, chain_img_height))
+clock = pygame.time.Clock()
 
-#test boxes, replace with crochet stitches later
-active_box = None
-# images = []
-# for i in range(5):
-#     x = random.randint(35, 65)
-#     y = random.randint(35, 65)
-#     chain = (chain_st, (x,y))
-#     images.append(chain)
+dt = 0
+mouse_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+
 
 run = True
 while run:
-    screen.fill((0, 255, 0))
-    purple = (255, 0, 0)
+        
+    screen.fill("#8fa9cc")
 
-    #screen.blit(chain_st, (0,0))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
 
-    #update and draw items
-    screen.blit(chain_st)
+    #circle & moving the circle
+    pygame.draw.circle(screen, "#b33e3e", mouse_pos, 40)
+
+    if pygame.mouse.get_pressed()[0]:
+        if event.type == pygame.MOUSEMOTION:
+            pos = pygame.mouse.get_pos()
+            mouse_pos.x = pos[0]
+            mouse_pos.y = pos[1]
+
 
     pygame.display.flip()
 
-    for event in pygame.event.get():
 
-        #check for left mouse click
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                pos = pygame.mouse.get_pos()
-                player_pos.x = pos[0]
-                player_pos.y = pos[1]
-                for num, chain in enumerate(images):
-                    if chain.collidepoint(event.pos):
-                        active_box = num
+    dt = clock.tick(60) / 1000
 
-        #check for stop clicking box
-        if event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
-                pos = pygame.mouse.get_pos()
-                #Move the image
-                
-                active_box = None
-
-        #check for mouse movement
-        if event.type == pygame.MOUSEMOTION:
-            if active_box != None:
-                images[active_box].move_ip(event.rel)
-
-
-        if event.type == pygame.QUIT:
-            run = False
+pygame.quit()
