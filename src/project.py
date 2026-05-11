@@ -66,12 +66,18 @@ def getStitchPosition(pos, group):
     return False
 
 
-def getMostRecentObj(stitch_list):
+def getMostRecentObj(imported_list):
     try:
-        most_recent_obj = stitch_list.sprites()[-1]
+        most_recent_obj = imported_list.sprites()[-1]
         return most_recent_obj
     except IndexError:
         return
+    
+def isButtonPressed(button, pos):
+    if button.rect.collidepoint(pos) == True:
+        return True
+    else:
+        return False
         
                 
 def main():
@@ -96,9 +102,10 @@ def main():
     doubleCR_button = Button(400, 200, doubleCR_button_img, 2)
 
     #sprite groups
-    chains_list = pygame.sprite.Group()
-    singleCR_list = pygame.sprite.Group()
-    doubleCR_list = pygame.sprite.Group()
+    # chains_list = pygame.sprite.Group()
+    # singleCR_list = pygame.sprite.Group()
+    # doubleCR_list = pygame.sprite.Group()
+    stitch_list = pygame.sprite.Group()
 
     dt = 0
     steps = 10
@@ -114,21 +121,23 @@ def main():
         screen.fill("#8fa9cc")
 
         #update sprite group
-        chains_list.update()
-        singleCR_list.update()
-        doubleCR_list.update()
+        # chains_list.update()
+        # singleCR_list.update()
+        # doubleCR_list.update()
+        stitch_list.update()
 
         #draw sprite group
-        chains_list.draw(screen)
-        singleCR_list.draw(screen)
-        doubleCR_list.draw(screen)
+        # chains_list.draw(screen)
+        # singleCR_list.draw(screen)
+        # doubleCR_list.draw(screen)
+        stitch_list.draw(screen)
 
         if chain_button.draw(screen):  #basically if action == True
-            print(chains_list)
+            print("Chain button")
         if singleCR_button.draw(screen):
-            print(singleCR_list)
+            print("SingleCR button")
         if doubleCR_button.draw(screen):
-            print(doubleCR_list)
+            print("DoubleCR button")
 
         #event handler
         for event in pygame.event.get():
@@ -140,12 +149,12 @@ def main():
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed()[0]:
-                        if chain_button.rect.collidepoint(pos):
-                            chains_list.add(chain_obj)
-                        elif singleCR_button.rect.collidepoint(pos):
-                            singleCR_list.add(singleCR_obj)
-                        elif doubleCR_button.rect.collidepoint(pos):
-                            doubleCR_list.add(doubleCR_obj)
+                        if isButtonPressed(chain_button, pos):
+                            stitch_list.add(chain_obj)
+                        elif isButtonPressed(singleCR_button, pos):
+                            stitch_list.add(singleCR_obj)
+                        elif isButtonPressed(doubleCR_button, pos):
+                            stitch_list.add(doubleCR_obj)
                 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFTBRACKET:
@@ -153,13 +162,9 @@ def main():
                         print("switch once!")
     
             if state == "Edit Mode":
-                obj = getMostRecentObj(chains_list)
-                if obj == None:
-                    try:
-                        obj = getMostRecentObj(singleCR_list)
-                    except:
-                        obj = getMostRecentObj(doubleCR_list)
-
+                
+                obj = getMostRecentObj(stitch_list)
+                
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
                         obj.control(-steps, 0)
