@@ -89,6 +89,9 @@ def main():
 
     dt = 0
 
+    #starting state - select buttons & different sprites
+    state = 'Select Mode'
+
     #event loop - put everything that renders onscreen here
     run = True
     while run:
@@ -99,14 +102,13 @@ def main():
 
         #update sprite group
         chain_obj.update()
-        chains_list.draw(screen)
-
+        chains_list.update()
 
         #draw sprite group
         chains_list.draw(screen)
 
         if chain_button.draw(screen):  #basically if action == True
-            print("Chain button works!")
+            print(chains_list)
         if singleCR_button.draw(screen):
             print('singleCR works!')
         if doubleCR_button.draw(screen):
@@ -114,36 +116,38 @@ def main():
 
 
         #event handler
-        for event in pygame.event.get():
-            pos = pygame.mouse.get_pos()
-            #add chain using button
-            if chain_button.rect.collidepoint(pos):
+        if state == 'Select Mode':
+            for event in pygame.event.get():
+                pos = pygame.mouse.get_pos()
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    #create chain
-                    chains_list.add(chain_obj)
+                    if pygame.mouse.get_pressed()[0]:
+                        if chain_button.rect.collidepoint(pos):
+                            new_chain = Chain(400, 300, chain_button_img, 0.8)
+                            chains_list.add(new_chain)
+    
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT or event.key == ord('a'):
+                        chain_obj.control(-steps, 0)
+                    if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                        chain_obj.control(steps, 0)
+                    if event.key == pygame.K_UP or event.key == ord('w'):
+                        chain_obj.control(0, -steps)
+                    if event.key == pygame.K_DOWN or event.key == ord('s'):
+                        chain_obj.control(0, steps)
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    chain_obj.control(-steps, 0)
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    chain_obj.control(steps, 0)
-                if event.key == pygame.K_UP or event.key == ord('w'):
-                    chain_obj.control(0, -steps)
-                if event.key == pygame.K_DOWN or event.key == ord('s'):
-                    chain_obj.control(0, steps)
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_LEFT or event.key == ord('a'):
+                        chain_obj.control(steps, 0)
+                    if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                        chain_obj.control(-steps, 0)
+                    if event.key == pygame.K_UP or event.key == ord('w'):
+                        chain_obj.control(0, steps)
+                    if event.key == pygame.K_DOWN or event.key == ord('s'):
+                        chain_obj.control(0, -steps)
 
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    chain_obj.control(steps, 0)
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    chain_obj.control(-steps, 0)
-                if event.key == pygame.K_UP or event.key == ord('w'):
-                    chain_obj.control(0, steps)
-                if event.key == pygame.K_DOWN or event.key == ord('s'):
-                    chain_obj.control(0, -steps)
-
-            if event.type == pygame.QUIT:
-                run = False
+                if event.type == pygame.QUIT:
+                    run = False
 
 
         pygame.display.flip()
