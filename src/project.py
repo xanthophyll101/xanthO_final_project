@@ -9,6 +9,9 @@ screen_height = 450
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Crochet Pattern Maker')
+chain_st_img = pygame.image.load('one-chain-stitch-symbol.jpg')
+chain_img_width, chain_img_height = 50, 50
+chain_st = pygame.transform.scale(chain_st_img, (chain_img_width, chain_img_height))
 
 #test boxes, replace with crochet stitches later
 active_box = None
@@ -25,6 +28,8 @@ run = True
 while run:
     screen.fill((0, 255, 0))
     purple = (255, 0, 0)
+
+    screen.blit(chain_st, (0,0))
 
     #update and draw items
     for box in images:
