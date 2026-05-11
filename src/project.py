@@ -127,8 +127,9 @@ def main():
                             chains_list.add(new_chain)
                 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_TAB:
+                    if event.key == pygame.K_LEFTBRACKET:
                         state = "Edit Mode"
+                        print("switch once!")
     
             if state == "Edit Mode":
                 if event.type == pygame.KEYDOWN:
@@ -151,8 +152,13 @@ def main():
                     if event.key == pygame.K_DOWN or event.key == ord('s'):
                         chain_obj.control(0, -steps)
 
-                if event.type == pygame.QUIT:
-                    run = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RIGHTBRACKET:
+                        state = "Select Mode"
+                        print("switched back!")
+
+            if event.type == pygame.QUIT:
+                run = False
 
 
         pygame.display.flip()
