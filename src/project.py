@@ -45,7 +45,7 @@ while run:
 
     screen.fill("#8fa9cc")
 
-    chain_button.draw()
+    #chain_button.draw()
     singleCR_button.draw()
     doubleCR_button.draw()
 
