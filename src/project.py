@@ -35,7 +35,8 @@ class Button():
         
         #check mouseover and clicked conditions
         if self.rect.collidepoint(pos):
-            print("HOVER")
+            if pygame.mouse.get_pressed()[0]:
+                print("CLICKED")
 
         #draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
