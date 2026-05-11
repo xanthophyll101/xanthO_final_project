@@ -21,8 +21,10 @@ mouse_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
 #Button class
 class Button():
-    def __init__(self, x, y, image):
-        self.image = image
+    def __init__(self, x, y, image, scale):
+        width = image.get_width()
+        height = image.get_height()
+        self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
 
@@ -32,9 +34,9 @@ class Button():
 
 
 #create button instances
-chain_button = Button(100, 200, chain_button_img)
-singleCR_button = Button(250, 200, singleCR_button_img)
-doubleCR_button = Button(400, 200, doubleCR_button_img)
+chain_button = Button(100, 200, chain_button_img, 2)
+singleCR_button = Button(250, 200, singleCR_button_img, 2)
+doubleCR_button = Button(400, 200, doubleCR_button_img, 2)
 
 
 run = True
