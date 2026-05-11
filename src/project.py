@@ -1,5 +1,5 @@
 import pygame
-    
+
 
 class Button():
     def __init__(self, x, y, image, scale):
@@ -43,11 +43,18 @@ class Chain(pygame.sprite.Sprite):
         self.rect.topleft = (x, y)
         self.clicked = False
 
-    # def update(self, og_list, object):
-    #     stitch_list = list(og_list)
-    #     list_count = len(og_list)
-    #     if list_count > 0:
-    #         stitch_list.append(object)
+        #testing new movement
+        self.movex = 0 
+        self.movey = 0 
+        self.frame = 0 #count frames
+
+    def control(self, x, y): #control player movement
+        self.movex += x
+        self.movey += y
+
+    def update(self):
+        self.rect.x = self.rect.x + self.movex
+        self.rect.y = self.rect.y + self.movey
         
                 
 def main():
@@ -72,10 +79,12 @@ def main():
     doubleCR_button = Button(400, 200, doubleCR_button_img, 2)
 
     #stitch instances
-    
+    chain_obj = Chain(400, 300, chain_button_img, 0.8)
 
     #sprite group
-    chains = pygame.sprite.Group()
+    chains_list = pygame.sprite.Group()
+    chains_list.add(chain_obj)
+    steps = 10
     #chains_list = chains.sprites()
 
     dt = 0
@@ -89,11 +98,12 @@ def main():
         screen.fill("#8fa9cc")
 
         #update sprite group
-        chain_obj = Chain(400, 300, chain_button_img, 0.8)
-        chains.update()
+        chain_obj.update()
+        chains_list.draw(screen)
+
 
         #draw sprite group
-        chains.draw(screen)
+        chains_list.draw(screen)
 
         if chain_button.draw(screen):  #basically if action == True
             print("Chain button works!")
@@ -102,7 +112,6 @@ def main():
         if doubleCR_button.draw(screen):
             print('doubleCr works!')
 
-        mouse_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
         #event handler
         for event in pygame.event.get():
@@ -111,18 +120,27 @@ def main():
             if chain_button.rect.collidepoint(pos):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     #create chain
-                    chains.add(chain_obj)
+                    chains_list.add(chain_obj)
 
-            if chain_obj.rect.collidepoint(pos):
-                active_obj = None
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    for num, chain_obj in enumerate(chains):
-                        active_obj = num
-                    
-                if event.type == pygame.MOUSEMOTION:
-                    chain_obj.rect.x = pos[0]
-                    chain_obj.rect.y = pos[1]
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT or event.key == ord('a'):
+                    chain_obj.control(-steps, 0)
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                    chain_obj.control(steps, 0)
+                if event.key == pygame.K_UP or event.key == ord('w'):
+                    chain_obj.control(0, -steps)
+                if event.key == pygame.K_DOWN or event.key == ord('s'):
+                    chain_obj.control(0, steps)
 
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == ord('a'):
+                    chain_obj.control(steps, 0)
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                    chain_obj.control(-steps, 0)
+                if event.key == pygame.K_UP or event.key == ord('w'):
+                    chain_obj.control(0, steps)
+                if event.key == pygame.K_DOWN or event.key == ord('s'):
+                    chain_obj.control(0, -steps)
 
             if event.type == pygame.QUIT:
                 run = False
