@@ -41,9 +41,15 @@ while run:
                     if box.collidepoint(event.pos):
                         active_box = num
 
+        #check for stop clicking box
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                active_box = None
+
         #check for mouse movement
         if event.type == pygame.MOUSEMOTION:
-            print(event)
+            if active_box != None:
+                images[active_box].move_ip(event.rel)
 
 
         if event.type == pygame.QUIT:
