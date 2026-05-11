@@ -12,9 +12,9 @@ pygame.display.set_caption('Crochet Pattern Maker')
 clock = pygame.time.Clock()
 
 #load button images
-chain_button_img = pygame.image.load('one-chain-stitch-symbol.jpg')
-singleCR_button_img = pygame.image.load('single-crochet-stitch.jpg')
-doubleCR_button_img = pygame.image.load('double-crochet-stitch.jpg')
+chain_button_img = pygame.image.load('chain_button.jpg')
+singleCR_button_img = pygame.image.load('singleCR_button.jpg')
+doubleCR_button_img = pygame.image.load('doubleCR_button.jpg')
 
 dt = 0
 mouse_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
@@ -45,7 +45,7 @@ while run:
 
     screen.fill("#8fa9cc")
 
-    #chain_button.draw()
+    chain_button.draw()
     singleCR_button.draw()
     doubleCR_button.draw()
 
