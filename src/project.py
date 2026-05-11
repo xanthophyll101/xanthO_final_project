@@ -76,7 +76,6 @@ def main():
     chains.add(chain_I)
 
     dt = 0
-    mouse_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
     #event loop - put everything that renders onscreen here
     run = True
@@ -99,16 +98,27 @@ def main():
         if doubleCR_button.draw(screen):
             print('doubleCr works!')
 
+        mouse_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+
         #event handler
         for event in pygame.event.get():
+            chain_obj = Chain(400, 300, chain_button_img, 0.8)
+            pos = pygame.mouse.get_pos()
             #add chain using button
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                #get mouse cords
-                pos = pygame.mouse.get_pos()
-                if chain_button.rect.collidepoint(pos):
+            if chain_button.rect.collidepoint(pos):
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     #create chain
-                    chain_obj = Chain(400, 300, chain_button_img, 0.8)
                     chains.add(chain_obj)
+
+            if chain_obj.rect.collidepoint(pos):
+                if pygame.mouse.get_pressed()[0]:
+                    print("Clicked!")
+                    if event.type == pygame.MOUSEMOTION:
+                        print("moving!")
+                        chain_obj.x = pos[0]
+                        chain_obj.y = pos[1]
+
+
             if event.type == pygame.QUIT:
                 run = False
 
