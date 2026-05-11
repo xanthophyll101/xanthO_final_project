@@ -116,8 +116,8 @@ def main():
 
 
         #event handler
-        if state == 'Select Mode':
-            for event in pygame.event.get():
+        for event in pygame.event.get():
+            if state == "Select Mode":
                 pos = pygame.mouse.get_pos()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -125,7 +125,12 @@ def main():
                         if chain_button.rect.collidepoint(pos):
                             new_chain = Chain(400, 300, chain_button_img, 0.8)
                             chains_list.add(new_chain)
+                
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_TAB:
+                        state = "Edit Mode"
     
+            if state == "Edit Mode":
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
                         chain_obj.control(-steps, 0)
