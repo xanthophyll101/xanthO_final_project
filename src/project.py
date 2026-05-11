@@ -43,9 +43,7 @@ class Chain(pygame.sprite.Sprite):
         self.rect.topleft = (x, y)
         self.clicked = False
 
-    def draw(self, screen):
-
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        
                 
 
 
@@ -103,12 +101,14 @@ def main():
 
         #event handler
         for event in pygame.event.get():
+            #add chain using button
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #get mouse cords
                 pos = pygame.mouse.get_pos()
-                #create chain
-                chain_obj = Chain(pos[0], pos[1], chain_button_img, 0.8)
-                chains.add(chain_obj)
+                if chain_button.rect.collidepoint(pos):
+                    #create chain
+                    chain_obj = Chain(400, 300, chain_button_img, 0.8)
+                    chains.add(chain_obj)
             if event.type == pygame.QUIT:
                 run = False
 
