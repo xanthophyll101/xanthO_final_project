@@ -31,6 +31,22 @@ class Button():
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
         return action
+    
+
+class Chain(pygame.sprite.Sprite):
+    def __init__(self, x, y, image, scale):
+        pygame.sprite.Sprite.__init__(self)
+        width = image.get_width()
+        height = image.get_height()
+        self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+        self.clicked = False
+
+    def draw(self, screen):
+
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+                
 
 
 def main():
@@ -40,7 +56,10 @@ def main():
     screen_height = 600
     screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption('Crochet Pattern Maker')
+
+    #framerate
     clock = pygame.time.Clock()
+    FPS = 60
 
     #buttons
     chain_button_img = pygame.image.load('chain_button.jpg')
@@ -51,39 +70,52 @@ def main():
     singleCR_button = Button(250, 200, singleCR_button_img, 2)
     doubleCR_button = Button(400, 200, doubleCR_button_img, 2)
 
+    #stitch instances
+    chain_I = Chain(400, 300, chain_button_img, 0.8)
+
+    #sprite group
+    chains = pygame.sprite.Group()
+    chains.add(chain_I)
+
     dt = 0
     mouse_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
     #event loop - put everything that renders onscreen here
     run = True
     while run:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
+
+        clock.tick(FPS)
 
         screen.fill("#8fa9cc")
 
+        #update sprite group
+        chains.update()
+
+        #draw sprite group
+        chains.draw(screen)
+
         if chain_button.draw(screen):  #basically if action == True
-            print("Action works! Yay!")
+            print(chains)
         if singleCR_button.draw(screen):
             print('singleCR works!')
         if doubleCR_button.draw(screen):
             print('doubleCr works!')
 
-        #circle & moving the circle
-        #pygame.draw.circle(screen, "#b33e3e", mouse_pos, 40)
-
-        if pygame.mouse.get_pressed()[0]:
-            if event.type == pygame.MOUSEMOTION:
+        #event handler
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                #get mouse cords
                 pos = pygame.mouse.get_pos()
-                mouse_pos.x = pos[0]
-                mouse_pos.y = pos[1]
+                #create chain
+                chain_obj = Chain(pos[0], pos[1], chain_button_img, 0.8)
+                chains.add(chain_obj)
+            if event.type == pygame.QUIT:
+                run = False
 
 
         pygame.display.flip()
 
 
-        dt = clock.tick(60) / 1000
 
     pygame.quit()
 
