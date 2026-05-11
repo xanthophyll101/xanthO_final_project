@@ -35,6 +35,7 @@ class Button():
 
 class Chain(pygame.sprite.Sprite):
     def __init__(self, x, y, image, scale):
+        super().__init__()
         pygame.sprite.Sprite.__init__(self)
         width = image.get_width()
         height = image.get_height()
@@ -140,7 +141,6 @@ def main():
                             current_list = chains_list.sprites()
                             active_obj = current_list[active_obj_idx]
                             chain_obj = active_obj
-
                 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFTBRACKET:
@@ -148,25 +148,26 @@ def main():
                         print("switch once!")
     
             if state == "Edit Mode":
+                most_recent_obj = chains_list.sprites()[-1]
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
-                        chain_obj.control(-steps, 0)
+                        most_recent_obj.control(-steps, 0)
                     if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                        chain_obj.control(steps, 0)
+                        most_recent_obj.control(steps, 0)
                     if event.key == pygame.K_UP or event.key == ord('w'):
-                        chain_obj.control(0, -steps)
+                        most_recent_obj.control(0, -steps)
                     if event.key == pygame.K_DOWN or event.key == ord('s'):
-                        chain_obj.control(0, steps)
+                        most_recent_obj.control(0, steps)
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
-                        chain_obj.control(steps, 0)
+                        most_recent_obj.control(steps, 0)
                     if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                        chain_obj.control(-steps, 0)
+                        most_recent_obj.control(-steps, 0)
                     if event.key == pygame.K_UP or event.key == ord('w'):
-                        chain_obj.control(0, steps)
+                        most_recent_obj.control(0, steps)
                     if event.key == pygame.K_DOWN or event.key == ord('s'):
-                        chain_obj.control(0, -steps)
+                        most_recent_obj.control(0, -steps)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHTBRACKET:
