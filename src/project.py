@@ -31,7 +31,7 @@ class Button():
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
         return action
-    
+
 
 class Chain(pygame.sprite.Sprite):
     def __init__(self, x, y, image, scale):
@@ -43,10 +43,13 @@ class Chain(pygame.sprite.Sprite):
         self.rect.topleft = (x, y)
         self.clicked = False
 
+    # def update(self, og_list, object):
+    #     stitch_list = list(og_list)
+    #     list_count = len(og_list)
+    #     if list_count > 0:
+    #         stitch_list.append(object)
         
                 
-
-
 def main():
     #initialize screen & clock
     pygame.init()
@@ -69,11 +72,11 @@ def main():
     doubleCR_button = Button(400, 200, doubleCR_button_img, 2)
 
     #stitch instances
-    chain_I = Chain(400, 300, chain_button_img, 0.8)
+    
 
     #sprite group
     chains = pygame.sprite.Group()
-    chains.add(chain_I)
+    #chains_list = chains.sprites()
 
     dt = 0
 
@@ -86,13 +89,14 @@ def main():
         screen.fill("#8fa9cc")
 
         #update sprite group
+        chain_obj = Chain(400, 300, chain_button_img, 0.8)
         chains.update()
 
         #draw sprite group
         chains.draw(screen)
 
         if chain_button.draw(screen):  #basically if action == True
-            print(chains)
+            print("Chain button works!")
         if singleCR_button.draw(screen):
             print('singleCR works!')
         if doubleCR_button.draw(screen):
@@ -102,7 +106,6 @@ def main():
 
         #event handler
         for event in pygame.event.get():
-            chain_obj = Chain(400, 300, chain_button_img, 0.8)
             pos = pygame.mouse.get_pos()
             #add chain using button
             if chain_button.rect.collidepoint(pos):
@@ -111,12 +114,14 @@ def main():
                     chains.add(chain_obj)
 
             if chain_obj.rect.collidepoint(pos):
-                if pygame.mouse.get_pressed()[0]:
-                    print("Clicked!")
-                    if event.type == pygame.MOUSEMOTION:
-                        print("moving!")
-                        chain_obj.x = pos[0]
-                        chain_obj.y = pos[1]
+                active_obj = None
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    for num, chain_obj in enumerate(chains):
+                        active_obj = num
+                    
+                if event.type == pygame.MOUSEMOTION:
+                    chain_obj.rect.x = pos[0]
+                    chain_obj.rect.y = pos[1]
 
 
             if event.type == pygame.QUIT:
