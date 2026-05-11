@@ -29,6 +29,14 @@ class Button():
         self.rect.topleft = (x, y)
 
     def draw(self):
+
+        #get mouse position
+        pos = pygame.mouse.get_pos()
+        
+        #check mouseover and clicked conditions
+        if self.rect.collidepoint(pos):
+            print("HOVER")
+
         #draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
