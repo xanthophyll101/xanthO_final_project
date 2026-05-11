@@ -33,5 +33,18 @@ while run:
     pygame.display.flip()
 
     for event in pygame.event.get():
+
+        #check for left mouse click
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                for num, box in enumerate(images):
+                    if box.collidepoint(event.pos):
+                        active_box = num
+
+        #check for mouse movement
+        if event.type == pygame.MOUSEMOTION:
+            print(event)
+
+
         if event.type == pygame.QUIT:
             run = False
