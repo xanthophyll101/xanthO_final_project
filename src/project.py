@@ -1,5 +1,4 @@
 import pygame
-import math
 
 
 class Button():
@@ -40,16 +39,11 @@ class Stitch(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         width = image.get_width()
         height = image.get_height()
-        center_x = image.get_width() // 2
-        center_y = image.get_height() // 2
-        angle = 0
         self.og_image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
         self.image = self.og_image
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.center = self.rect.center
-        self.rect.centerx = center_x
-        self.rect.centery = center_y
         self.clicked = False
 
         #testing new movement
@@ -58,12 +52,6 @@ class Stitch(pygame.sprite.Sprite):
         self.angle = 0
         self.change_angle = 0
         self.frame = 0 #count frames
-
-    def rotate(self):
-        self.image = pygame.transform.rotate(self.og_image, self.angle)
-        self.angle += self.change_angle
-        self.angle = self.angle % 360
-        self.rect = self.image.get_rect(center=self.rect.center)
 
     def control(self, x, y, angle): #control player movement
         self.movex += x
@@ -75,7 +63,6 @@ class Stitch(pygame.sprite.Sprite):
         self.rect.y = self.rect.y + self.movey
         self.image = pygame.transform.rotate(self.og_image, self.angle)
         self.angle += self.change_angle
-        self.angle = self.angle % 360
         self.rect = self.image.get_rect(center=self.rect.center)
 
 
@@ -187,7 +174,6 @@ def main():
                         obj.control(0, steps, 0)
                     if event.key == pygame.K_o:
                         obj.control(0, 0, steps)
-                        print("rotating")
                     if event.key == pygame.K_p:
                         obj.control(0, 0, -steps)
 
@@ -202,7 +188,6 @@ def main():
                         obj.control(0, -steps, 0)
                     if event.key == pygame.K_o:
                         obj.control(0, 0, -steps)
-                        print("stop rotating")
                     if event.key == pygame.K_p:
                         obj.control(0, 0, steps)
 
