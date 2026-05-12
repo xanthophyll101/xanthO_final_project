@@ -16,7 +16,7 @@ Essentially, you can make your own crochet patterns with this program. It includ
 
 Clicking on the crochet pattern symbols in the top-right will spawn the corresponding symbol. Move it where you want on the canvas, and then spawn another one. The rest you already know if you crochet at all: repeat, repeat, repeat!
 
-# Controls:
+### Controls:
     Edit/Select Mode - [/] respectively
     WASD/Arrow Keys - Move the most recently spawned symbol
     O - Rotate counterclockwise
