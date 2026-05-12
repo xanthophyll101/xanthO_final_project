@@ -5,7 +5,7 @@ class Button():
     def __init__(self, x, y, image, scale):
         width = image.get_width()
         height = image.get_height()
-        self.image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
+        self.image = pygame.transform.smoothscale(image, (int(width * scale), int(height * scale)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.clicked = False
@@ -88,8 +88,8 @@ def isButtonPressed(button, pos):
 def main():
     #initialize screen & clock
     pygame.init()
-    screen_width = 800
-    screen_height = 600
+    screen_width = 1200
+    screen_height = 900
     move_pix = 5
     screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption('Crochet Pattern Maker')
@@ -99,16 +99,16 @@ def main():
     FPS = 60
 
     #buttons
-    chain_button_img = pygame.image.load('chain_button.jpg')
-    singleCR_button_img = pygame.image.load('singleCR_button.jpg')
-    doubleCR_button_img = pygame.image.load('doubleCR_button.jpg')
+    chain_button_img = pygame.image.load('chain.png').convert_alpha()
+    singleCR_button_img = pygame.image.load('single-crochet.png').convert_alpha()
+    doubleCR_button_img = pygame.image.load('double_crochet.png').convert_alpha()
     render_button_img = pygame.image.load('rendering-button.jpg')
 
     #create button instances
-    chain_button = Button(100, 200, chain_button_img, 2)
-    singleCR_button = Button(250, 200, singleCR_button_img, 2)
-    doubleCR_button = Button(400, 200, doubleCR_button_img, 2)
-    render_button = Button(50, 500, render_button_img, 2)
+    chain_button = Button(100, 200, chain_button_img, 0.05)
+    singleCR_button = Button(250, 200, singleCR_button_img, 0.05)
+    doubleCR_button = Button(400, 200, doubleCR_button_img, 0.05)
+    render_button = Button(50, 500, render_button_img, 0.05)
 
     stitch_list = pygame.sprite.Group()
 
@@ -141,9 +141,9 @@ def main():
         for event in pygame.event.get():
             if state == "Select Mode":
                 pos = pygame.mouse.get_pos()
-                chain_obj = Stitch(400, 300, chain_button_img, 0.8)
-                singleCR_obj = Stitch(400, 300, singleCR_button_img, 0.8)
-                doubleCR_obj = Stitch(400, 300, doubleCR_button_img, 0.8)
+                chain_obj = Stitch(400, 300, chain_button_img, 0.05)
+                singleCR_obj = Stitch(400, 300, singleCR_button_img, 0.05)
+                doubleCR_obj = Stitch(400, 300, doubleCR_button_img, 0.05)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed()[0]:
