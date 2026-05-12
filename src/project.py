@@ -196,6 +196,8 @@ def main():
                         obj.control_move(0, 0, move_pix)
                     if event.key == pygame.K_p:
                         obj.control_move(0, 0, -move_pix)
+                    if event.key == pygame.K_BACKSPACE:
+                        obj.kill()
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
@@ -210,6 +212,8 @@ def main():
                         obj.control_move(0, 0, -move_pix)
                     if event.key == pygame.K_p:
                         obj.control_move(0, 0, move_pix)
+                    if event.key == pygame.K_BACKSPACE:
+                        pass
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHTBRACKET:
