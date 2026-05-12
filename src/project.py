@@ -103,6 +103,7 @@ def main():
     singleCR_button_img = pygame.image.load('single-crochet.png').convert_alpha()
     doubleCR_button_img = pygame.image.load('double_crochet.png').convert_alpha()
     render_button_img = pygame.image.load('rendering-button-quality.png').convert_alpha()
+    render_text_img = pygame.image.load('render-text.png').convert_alpha()
     toolbar_background_img = pygame.image.load('toolbar_background.png').convert_alpha()
     borderD_img = pygame.image.load('border.png').convert_alpha()
     borderU_img = pygame.image.load('border-top.png').convert_alpha()
@@ -114,6 +115,7 @@ def main():
     singleCR_button = Button(182, 60, singleCR_button_img, 0.08)
     doubleCR_button = Button(280, 60, doubleCR_button_img, 0.065)
     render_button = Button(30, 790, render_button_img, 0.4)
+    render_text = Button(115, 810, render_text_img, 0.05)
     toolbar_background = Button(30, 30, toolbar_background_img, 0.5)
     borderD = Button(349, 825, borderD_img, 1)
     borderU = Button(349, 15, borderU_img, 1)
@@ -145,7 +147,8 @@ def main():
         borderU.draw(screen)
         borderL.draw(screen)
         borderR.draw(screen)
-        if render_button.draw(screen):
+        render_button.draw(screen)
+        if render_text.draw(screen):
             render_button.render(screen)
 
         #event handler
