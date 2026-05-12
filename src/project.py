@@ -36,14 +36,20 @@ class Button():
 
 class Stitch(pygame.sprite.Sprite):
     def __init__(self, x, y, image, scale):
-        super().__init__()
+        super(Stitch, self).__init__()
         pygame.sprite.Sprite.__init__(self)
         width = image.get_width()
         height = image.get_height()
+        center_x = image.get_width() // 2
+        center_y = image.get_height() // 2
+        angle = 0
         self.og_image = pygame.transform.scale(image, (int(width * scale), int(height * scale)))
         self.image = self.og_image
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+        self.center = self.rect.center
+        self.rect.centerx = center_x
+        self.rect.centery = center_y
         self.clicked = False
 
         #testing new movement
@@ -67,7 +73,10 @@ class Stitch(pygame.sprite.Sprite):
     def update(self):
         self.rect.x = self.rect.x + self.movex
         self.rect.y = self.rect.y + self.movey
-        self.angle = self.angle + self.change_angle
+        self.image = pygame.transform.rotate(self.og_image, self.angle)
+        self.angle += self.change_angle
+        self.angle = self.angle % 360
+        self.rect = self.image.get_rect(center=self.rect.center)
 
 
 def getStitchPosition(pos, group):
@@ -177,8 +186,10 @@ def main():
                     if event.key == pygame.K_DOWN or event.key == ord('s'):
                         obj.control(0, steps, 0)
                     if event.key == pygame.K_o:
-                        obj.control(0, 0, -steps)
+                        obj.control(0, 0, steps)
                         print("rotating")
+                    if event.key == pygame.K_p:
+                        obj.control(0, 0, -steps)
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
@@ -190,8 +201,10 @@ def main():
                     if event.key == pygame.K_DOWN or event.key == ord('s'):
                         obj.control(0, -steps, 0)
                     if event.key == pygame.K_o:
-                        obj.control(0, 0, steps)
+                        obj.control(0, 0, -steps)
                         print("stop rotating")
+                    if event.key == pygame.K_p:
+                        obj.control(0, 0, steps)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHTBRACKET:
