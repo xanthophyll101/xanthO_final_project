@@ -28,7 +28,7 @@ class Button():
         return action
     
     def render(self, screen):
-        self.export = pygame.image.save(screen, "Crochet_Pattern.jpg")
+        self.export = pygame.image.save(screen, "Crochet_PatternSS.jpg")
 
 
 class Stitch(pygame.sprite.Sprite):
@@ -98,19 +98,27 @@ def main():
     clock = pygame.time.Clock()
     FPS = 60
 
-    #buttons
+    #button/gui images
     chain_button_img = pygame.image.load('chain.png').convert_alpha()
     singleCR_button_img = pygame.image.load('single-crochet.png').convert_alpha()
     doubleCR_button_img = pygame.image.load('double_crochet.png').convert_alpha()
-    render_button_img = pygame.image.load('rendering-button.jpg')
+    render_button_img = pygame.image.load('rendering-button-quality.png').convert_alpha()
     toolbar_background_img = pygame.image.load('toolbar_background.png').convert_alpha()
+    borderD_img = pygame.image.load('border.png').convert_alpha()
+    borderU_img = pygame.image.load('border-top.png').convert_alpha()
+    borderL_img = pygame.image.load('border-left.png').convert_alpha()
+    borderR_img = pygame.image.load('border-right.png').convert_alpha()
 
-    #create button instances
+    #create button/other gui instances
     chain_button = Button(85, 75, chain_button_img, 0.08)
     singleCR_button = Button(182, 60, singleCR_button_img, 0.08)
     doubleCR_button = Button(280, 60, doubleCR_button_img, 0.065)
-    render_button = Button(50, 500, render_button_img, 0.3)
+    render_button = Button(30, 790, render_button_img, 0.4)
     toolbar_background = Button(30, 30, toolbar_background_img, 0.5)
+    borderD = Button(349, 825, borderD_img, 1)
+    borderU = Button(349, 15, borderU_img, 1)
+    borderL = Button(15, 199, borderL_img, 1)
+    borderR = Button(1120, 199, borderR_img, 1)
 
     stitch_list = pygame.sprite.Group()
 
@@ -124,21 +132,21 @@ def main():
 
         clock.tick(FPS)
 
-        screen.fill("#8fa9cc")
+        screen.fill("#e0d0bd")
 
         stitch_list.update()
 
         stitch_list.draw(screen)
-        if toolbar_background.draw(screen):
-            print('tool')
-        if chain_button.draw(screen):  #basically if action == True
-            print("Chain button")
-        if singleCR_button.draw(screen):
-            print("SingleCR button")
-        if doubleCR_button.draw(screen):
-            print("DoubleCR button")
+        toolbar_background.draw(screen)
+        chain_button.draw(screen)
+        singleCR_button.draw(screen)
+        doubleCR_button.draw(screen)
+        borderD.draw(screen)
+        borderU.draw(screen)
+        borderL.draw(screen)
+        borderR.draw(screen)
         if render_button.draw(screen):
-            print("rendering works!")
+            render_button.render(screen)
 
         #event handler
         for event in pygame.event.get():
