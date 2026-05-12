@@ -103,12 +103,14 @@ def main():
     singleCR_button_img = pygame.image.load('single-crochet.png').convert_alpha()
     doubleCR_button_img = pygame.image.load('double_crochet.png').convert_alpha()
     render_button_img = pygame.image.load('rendering-button.jpg')
+    toolbar_background_img = pygame.image.load('toolbar_background.png').convert_alpha()
 
     #create button instances
-    chain_button = Button(100, 200, chain_button_img, 0.05)
-    singleCR_button = Button(250, 200, singleCR_button_img, 0.05)
-    doubleCR_button = Button(400, 200, doubleCR_button_img, 0.05)
-    render_button = Button(50, 500, render_button_img, 0.05)
+    chain_button = Button(85, 75, chain_button_img, 0.08)
+    singleCR_button = Button(182, 60, singleCR_button_img, 0.08)
+    doubleCR_button = Button(280, 60, doubleCR_button_img, 0.065)
+    render_button = Button(50, 500, render_button_img, 0.3)
+    toolbar_background = Button(30, 30, toolbar_background_img, 0.5)
 
     stitch_list = pygame.sprite.Group()
 
@@ -127,7 +129,8 @@ def main():
         stitch_list.update()
 
         stitch_list.draw(screen)
-
+        if toolbar_background.draw(screen):
+            print('tool')
         if chain_button.draw(screen):  #basically if action == True
             print("Chain button")
         if singleCR_button.draw(screen):
