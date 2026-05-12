@@ -109,6 +109,8 @@ def main():
     borderU_img = pygame.image.load('border-top.png').convert_alpha()
     borderL_img = pygame.image.load('border-left.png').convert_alpha()
     borderR_img = pygame.image.load('border-right.png').convert_alpha()
+    select_icon_img = pygame.image.load('select-icon.png').convert_alpha()
+    edit_icon_img = pygame.image.load('edit-icon.png').convert_alpha()
 
     #create button/other gui instances
     chain_button = Button(85, 75, chain_button_img, 0.08)
@@ -121,6 +123,8 @@ def main():
     borderU = Button(349, 15, borderU_img, 1)
     borderL = Button(15, 199, borderL_img, 1)
     borderR = Button(1120, 199, borderR_img, 1)
+    select_icon = Button(1040, 765, select_icon_img, 0.2)
+    edit_icon = Button(1040, 765, edit_icon_img, 0.23)
 
     stitch_list = pygame.sprite.Group()
 
@@ -148,6 +152,10 @@ def main():
         borderL.draw(screen)
         borderR.draw(screen)
         render_button.draw(screen)
+        if state == "Select Mode":
+            select_icon.draw(screen)
+        if state != "Select Mode":
+            edit_icon.draw(screen)
         if render_text.draw(screen):
             render_button.render(screen)
 
@@ -171,10 +179,8 @@ def main():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFTBRACKET:
                         state = "Edit Mode"
-                        print("switch once!")
     
             if state == "Edit Mode":
-
                 obj = getMostRecentObj(stitch_list)
                 
                 if event.type == pygame.KEYDOWN:
@@ -208,7 +214,6 @@ def main():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHTBRACKET:
                         state = "Select Mode"
-                        print("switched back!")
 
             if event.type == pygame.QUIT:
                 run = False
