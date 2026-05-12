@@ -11,18 +11,13 @@ class Button():
         self.clicked = False
 
     def draw(self, screen):
-
         action = False
 
-        #get mouse position
         pos = pygame.mouse.get_pos()
-        
-        #check mouseover and clicked conditions
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
                 action = True
-
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
             action = False
@@ -31,6 +26,9 @@ class Button():
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
         return action
+    
+    def render(self, screen):
+        self.export = pygame.image.save(screen, "Crochet_Pattern.jpg")
 
 
 class Stitch(pygame.sprite.Sprite):
@@ -45,15 +43,13 @@ class Stitch(pygame.sprite.Sprite):
         self.rect.topleft = (x, y)
         self.center = self.rect.center
         self.clicked = False
-
-        #testing new movement
         self.movex = 0 
         self.movey = 0 
         self.angle = 0
         self.change_angle = 0
         self.frame = 0 #count frames
 
-    def control(self, x, y, angle): #control player movement
+    def control_move(self, x, y, angle):
         self.movex += x
         self.movey += y
         self.change_angle += angle
@@ -94,6 +90,7 @@ def main():
     pygame.init()
     screen_width = 800
     screen_height = 600
+    move_pix = 5
     screen = pygame.display.set_mode((screen_width, screen_height))
     pygame.display.set_caption('Crochet Pattern Maker')
 
@@ -105,20 +102,21 @@ def main():
     chain_button_img = pygame.image.load('chain_button.jpg')
     singleCR_button_img = pygame.image.load('singleCR_button.jpg')
     doubleCR_button_img = pygame.image.load('doubleCR_button.jpg')
+    render_button_img = pygame.image.load('rendering-button.jpg')
 
     #create button instances
     chain_button = Button(100, 200, chain_button_img, 2)
     singleCR_button = Button(250, 200, singleCR_button_img, 2)
     doubleCR_button = Button(400, 200, doubleCR_button_img, 2)
+    render_button = Button(50, 500, render_button_img, 2)
 
     stitch_list = pygame.sprite.Group()
 
     dt = 0
-    steps = 10
     #starting state - select buttons & different sprites
     state = 'Select Mode'
 
-    #event loop - put everything that renders onscreen here
+    #event loop
     run = True
     while run:
 
@@ -136,6 +134,8 @@ def main():
             print("SingleCR button")
         if doubleCR_button.draw(screen):
             print("DoubleCR button")
+        if render_button.draw(screen):
+            print("rendering works!")
 
         #event handler
         for event in pygame.event.get():
@@ -165,31 +165,31 @@ def main():
                 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
-                        obj.control(-steps, 0, 0)
+                        obj.control_move(-move_pix, 0, 0)
                     if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                        obj.control(steps, 0, 0)
+                        obj.control_move(move_pix, 0, 0)
                     if event.key == pygame.K_UP or event.key == ord('w'):
-                        obj.control(0, -steps, 0)
+                        obj.control_move(0, -move_pix, 0)
                     if event.key == pygame.K_DOWN or event.key == ord('s'):
-                        obj.control(0, steps, 0)
+                        obj.control_move(0, move_pix, 0)
                     if event.key == pygame.K_o:
-                        obj.control(0, 0, steps)
+                        obj.control_move(0, 0, move_pix)
                     if event.key == pygame.K_p:
-                        obj.control(0, 0, -steps)
+                        obj.control_move(0, 0, -move_pix)
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == ord('a'):
-                        obj.control(steps, 0, 0)
+                        obj.control_move(move_pix, 0, 0)
                     if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                        obj.control(-steps, 0, 0)
+                        obj.control_move(-move_pix, 0, 0)
                     if event.key == pygame.K_UP or event.key == ord('w'):
-                        obj.control(0, steps, 0)
+                        obj.control_move(0, move_pix, 0)
                     if event.key == pygame.K_DOWN or event.key == ord('s'):
-                        obj.control(0, -steps, 0)
+                        obj.control_move(0, -move_pix, 0)
                     if event.key == pygame.K_o:
-                        obj.control(0, 0, -steps)
+                        obj.control_move(0, 0, -move_pix)
                     if event.key == pygame.K_p:
-                        obj.control(0, 0, steps)
+                        obj.control_move(0, 0, move_pix)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RIGHTBRACKET:
