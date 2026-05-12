@@ -14,7 +14,7 @@ My final project for Programming for Digital Arts is the Crochet Pattern Maker!
 
 Essentially, you can make your own crochet patterns with this program. It includes the chain stitch, single crochet, and double crochet pattern symbols.
 
-Clicking on the crochet pattern symbols in the top-right will spawn the corresponding symbol. Move it where you want on the canvas, and then spawn another one. The rest you already know if you crochet at all: repeat, repeat, repeat!
+While in Select mode (marked with a mouse symbol), click on the crochet pattern symbols in the top-right to spawn the corresponding symbol. Switch over to Edit mode, move it where you want on the canvas, and then spawn another one. The rest you already know if you crochet at all: repeat, repeat, repeat!
 
 ### Controls:
     Edit/Select Mode - [/] respectively
